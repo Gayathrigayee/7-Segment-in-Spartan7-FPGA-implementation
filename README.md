@@ -45,39 +45,62 @@ To design and simulate a Verilog HDL seven-segment display driver that converts 
 ---
 ## Logic Diagram
 
-<img width="589" height="511" alt="bcd2 7 segment" src="https://github.com/user-attachments/assets/e6922e13-6ec0-4f40-87ec-47be8862204d" />
+<img width="603" height="736" alt="image" src="https://github.com/user-attachments/assets/0136fb5a-0b04-49d8-9c54-2a89db3f6357" />
+
+<img width="800" height="602" alt="image" src="https://github.com/user-attachments/assets/bc222099-4a8b-4bb0-89ca-3da87d4b775e" />
+
+
+<img width="811" height="306" alt="image" src="https://github.com/user-attachments/assets/24b8ffe3-0fbe-4966-aa55-d0cffb3ca48d" />
+
 
 
 ## Verilog Code for Seven-Segment Display  
 
-```verilog
-module bcd_to_7segment(
-    input  [3:0] bcd,
-    output reg [6:0] seg,
-    output reg [3:0] an
+```
+// seven_segment_display.v
+module seven_segment_display (
+    input wire [3:0] binary_input,
+    output reg [6:0] seg_output
 );
 
-always @(*) 
-begin
-    an <= 4'b1110;
-    case (bcd)
-        4'b0000: seg = 7'b1000000;
-        4'b0001: seg = 7'b1111001;
-        4'b0010: seg = 7'b0100100;
-        4'b0011: seg = 7'b0110000;
-        4'b0100: seg = 7'b0011001;
-        4'b0101: seg = 7'b0010010;
-        4'b0110: seg = 7'b0000010;
-        4'b0111: seg = 7'b1111000;
-        4'b1000: seg = 7'b0000000;
-        4'b1001: seg = 7'b0010000;
-        default: seg = 7'b1111111;
+always @(*) begin
+    case (binary_input)
+        
+        
+        default: seg_output = 7'b0000000; // blank or error
     endcase
 end
 
 endmodule
 
 ```
+## Testbench for Seven-Segment Display
+
+```
+
+timescale 1ns / 1ps
+module seven_segment_display_tb;
+// Inputs
+reg [3:0] binary_input;
+// Outputs
+wire [6:0] seg_output;
+// Instantiate the Unit Under Test (UUT)
+seven_segment_display uut (
+    .binary_input(binary_input),
+    .seg_output(seg_output)
+);
+// Test procedure
+initial begin
+    // Initialize inputs
+    binary_input = 4'b0000;
+
+end
+
+
+endmodule
+
+```
+
 ## Constraint file for Seven-Segment Display
 ```
 ## DIP SWITCHES (SW0-SW3 for BCD input)
